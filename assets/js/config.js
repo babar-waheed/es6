@@ -1,3 +1,5 @@
 "use strict"
 
-console.log("config");
+var config = "config.js";
+
+console.log(config);
