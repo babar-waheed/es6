@@ -1,4 +1,5 @@
-console.log("es6.js");
+
+
 class ES6ClassName {
 
   log(msg) {
@@ -10,6 +11,8 @@ class ES6ClassName {
 let instance = new ES6ClassName();
 
 instance.log(instance);
+
+console.log("es6.js", instance);
 
 // ******* First Module ****** //
 

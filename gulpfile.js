@@ -8,6 +8,7 @@ const rename = require("gulp-rename");
 const sass = require('gulp-sass');
 const concat = require('gulp-concat');
 //const browserify = require('gulp-browserify');
+const webpack = require('webpack-stream');
 const sourceMaps = require('gulp-sourcemaps');
 const runSequence = require('run-sequence');
 const babel = require('gulp-babel');
@@ -27,10 +28,9 @@ var config = {
     ],
 
     jsFW: [
-        'assets/js/config.js',
-        'assets/js/main.js',
-        'assets/js/es6.js',
-        'assets/js/es6/**/*.js'
+//        'assets/js/config.js',
+        'assets/js/main.js'
+//        'assets/js/es6.js'
     ],
 
     jsDest: 'dist/js',
@@ -76,18 +76,22 @@ var minifyCSSFunc = function() {
 var minifyJSFW = function() {
 
     return src(config.jsFW)
-        .pipe(plumber())
-        .pipe(babel({
-              presets: [
-                ['@babel/env', {
-                  modules: false
-                }]
-              ]
-            }))
-        .pipe(sourceMaps.init())
+//        .pipe(plumber())
+//        .pipe(babel({
+//              presets: [
+//                ['@babel/env', {
+//                  modules: false
+//                }]
+//              ]
+//            }))
+        .pipe(webpack(require('./webpack.config')))
+        .on('error', function handleError() {
+              this.emit('end'); // Recover from errors
+        })
+        //.pipe(sourceMaps.init())
         //.pipe(minifyJS())
-        .pipe(concat('framework.min.js'))
-        .pipe(sourceMaps.write('.'))
+        //.pipe(concat('framework.min.js'))
+        //.pipe(sourceMaps.write('.'))
         .pipe(dest(config.jsDest))
 
 }
